@@ -1,0 +1,32 @@
+{
+  "name": "backend_p7",
+  "version": "1.0.0",
+  "description": "Groupomania Rest api ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mehdony/backend_P7.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "rest",
+    "api"
+  ],
+  "author": "Mehdi Ammour",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mehdony/backend_P7/issues"
+  },
+  "homepage": "https://github.com/Mehdony/backend_P7#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
+  }
+}
