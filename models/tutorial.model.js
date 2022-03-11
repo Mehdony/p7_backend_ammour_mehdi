@@ -1,10 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     const Tutorial = sequelize.define("tutorial", {
-      title: {
+      name: {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull : false
       },
       published: {
         type: Sequelize.BOOLEAN
