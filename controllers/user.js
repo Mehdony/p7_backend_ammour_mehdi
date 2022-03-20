@@ -11,7 +11,6 @@ exports.signup = (req, res, next) => {
         email: req.email,
         username: req.body.username,
         password: hash,
-        // isAdmin: req.body.isAdmin
       }
       console.log(user)
       User.create(user)
@@ -38,17 +37,14 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user.id,
-            isAdmin: user.isAdmin,
             username: user.username,
             token: jwt.sign(
               {
                 userId: user.id,
-                isAdmin: user.isAdmin
               },
               process.env.JWT_KEY,
               { expiresIn: '24h' }
             ),
-            username: user.username,
             loggedIn: true
           }
           )
