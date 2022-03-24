@@ -7,7 +7,9 @@ exports.create = (req, res ) => {
     console.log(req.body)
 
       const tutorial = {
+        userId : req.auth.userId,
         name : req.body.name,
+        imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
         description: req.body.description,
         published: req.body.published ? req.body.published : false,
       };

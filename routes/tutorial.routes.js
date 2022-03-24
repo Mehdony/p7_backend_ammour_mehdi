@@ -4,13 +4,13 @@ module.exports = (app) => {
   const tutorials = require("../controllers/tutorial.controller.js")
   let router = require("express").Router()
   // Create a new Tutorial
-  router.post("/", multer, tutorials.create)
+  router.post("/", auth, multer, tutorials.create)
   // Retrieve all Tutorials
-  router.get("/",   tutorials.findAll)
+  router.get("/", multer,  tutorials.findAll)
   // Retrieve all published Tutorials
-  router.get("/published", auth, tutorials.findAllPublished)
+  router.get("/published", auth, multer, tutorials.findAllPublished)
   // Retrieve a single Tutorial with id
-  router.get("/:id", auth, tutorials.findOne)
+  router.get("/:id", auth, multer,  tutorials.findOne)
   // Update a Tutorial with id
   router.put("/:id", auth, multer, tutorials.update)
   // Delete a Tutorial with id
