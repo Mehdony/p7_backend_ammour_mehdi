@@ -12,7 +12,7 @@ exports.create = (req, res ) => {
         imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
         description: req.body.description,
         published: req.body.published ? req.body.published : false,
-      };
+      }; 
       
     
       // Save Tutorial in the database
