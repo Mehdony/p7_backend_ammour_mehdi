@@ -1,6 +1,7 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
 const Op = db.Sequelize.Op;
+const Comment = db.comments;
 // Create and Save a new Tutorial
 
 exports.create = (req, res ) => {
@@ -20,7 +21,7 @@ exports.create = (req, res ) => {
     
         .then(response => {
           const post = response.get({ plain: true })
-        
+          post.comments = []
           console.log(post)
           res.send(post)
         })
@@ -137,15 +138,48 @@ exports.deleteAll = (req, res) => {
 
 // Find all published Tutorials
 
+
 exports.findAllPublished = (req, res) => {
-  Tutorial.findAll({ where: { published: true } })
-    .then((data) => {
-      res.send(data);
+  Tutorial.findAll({ raw: true, where: { published: true }, include: ['user'] })
+    .then(tutos => {
+      Comment.findAll().then(comments => {
+        const tutosWithComments = tutos.map(tuto => {
+          console.log(tuto)
+          tuto.comments = [];
+          comments.forEach(comment => {
+            if (comment.tutorialId === tuto.id) {
+              tuto.comments.push(comment);
+            }
+          })
+          return tuto;
+        })
+        //console.log(tutosWithComments);
+        res.send(tutosWithComments);
+      })
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials.",
-      });
-    });
+          err.message || "Une erreur est survenue lors de la récupération des tutoriels publiés"
+      })
+    })
+}
+
+exports.createComment = (req, res) => {
+
+  const comment = {
+    name: req.body.name,
+    text: req.body.text,
+    tutorialId: req.body.tutorialId,
+    userId: req.auth.userId
+  };
+  console.log(comment);
+  Comment.create(comment)
+    .then((data) => {
+      console.log(">> Created comment: " + JSON.stringify(data, null, 4))
+      res.send(data)
+    })
+    .catch((err) => {
+      console.log(">> Error while creating comment: ", err)
+    })
 };

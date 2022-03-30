@@ -5,6 +5,8 @@ module.exports = (app) => {
   let router = require("express").Router()
   // Create a new Tutorial
   router.post("/", auth, multer, tutorials.create)
+  // Create Comment 
+  router.post("/:tutorialId/comment", auth, tutorials.createComment);
   // Retrieve all Tutorials
   router.get("/", multer,  tutorials.findAll)
   // Retrieve all published Tutorials
