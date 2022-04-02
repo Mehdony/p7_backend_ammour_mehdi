@@ -183,3 +183,34 @@ exports.createComment = (req, res) => {
       console.log(">> Error while creating comment: ", err)
     })
 };
+
+exports.deleteComment = (req, res) => {
+  const id = req.params.id;
+  const commentId = req.params.commentId;
+  Comment.findByPk(commentId).then(comment => {
+    if (req.auth.userId === comment.userId || req.auth.isAdmin === true) {
+      Comment.destroy({
+        where: { id: commentId, tutorialId: id }
+      })
+        .then(num => {
+          if (num == 1) {
+            res.send({
+              message: "Commentaire supprimé avec succès"
+            })
+
+          } else {
+            res.send({
+              message: `Aucun commentaire trouvé avec l'id ${commentId}`
+            })
+          }
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Erreur lors de la suppression du commentaire avec l'id " + commentId
+          })
+        })
+    }
+  })
+
+
+}
