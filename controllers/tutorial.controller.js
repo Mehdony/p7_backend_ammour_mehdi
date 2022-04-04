@@ -13,6 +13,7 @@ exports.create = (req, res ) => {
         imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
         description: req.body.description,
         published: req.body.published ? req.body.published : false,
+        isAdmin: req.body.isAdmin ? req.body.isAdmin : false
       }; 
       
     
@@ -100,6 +101,11 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.params.id;
+
+  Tutorial.findByPk(id).then(post => {
+
+    if (post.userId === req.auth.userId || req.auth.isAdmin === true) {
+  
   Tutorial.destroy({
     where: { id: id },
   })
@@ -119,7 +125,11 @@ exports.delete = (req, res) => {
         message: "Could not delete Tutorial with id=" + id,
       });
     });
+}
+  })
 };
+
+
 exports.deleteAll = (req, res) => {
   Tutorial.destroy({
     where: {},

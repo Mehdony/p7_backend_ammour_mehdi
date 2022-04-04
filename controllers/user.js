@@ -11,6 +11,7 @@ exports.signup = (req, res, next) => {
         email: req.email,
         username: req.body.username,
         password: hash,
+        isAdmin: req.body.isAdmin
       }
       console.log(user)
       User.create(user)
@@ -19,7 +20,6 @@ exports.signup = (req, res, next) => {
     })
     .catch(error => {
       console.log(error)
-
       return res.status(500).json({ error })
     })
 }
@@ -41,6 +41,7 @@ exports.login = (req, res, next) => {
             token: jwt.sign(
               {
                 userId: user.id,
+                isAdmin: user.isAdmin
               },
               process.env.JWT_KEY,
               { expiresIn: '24h' }
