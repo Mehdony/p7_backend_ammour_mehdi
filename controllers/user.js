@@ -11,7 +11,7 @@ exports.signup = (req, res, next) => {
         email: req.email,
         username: req.body.username,
         password: hash,
-        isAdmin: req.body.isAdmin
+        isAdmin: false
       }
       console.log(user)
       User.create(user)
@@ -38,6 +38,8 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user.id,
             username: user.username,
+            isAdmin: user.isAdmin,
+
             token: jwt.sign(
               {
                 userId: user.id,
@@ -54,3 +56,16 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }))
 }
+
+exports.deleteUser = (req, res, next) => {
+  const id = req.params.id
+ 
+  User.findByPk(id).then( () => {
+    User.destroy({
+      where: { id: id }
+    })
+      .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+      .catch(error => res.status(400).json({ error }))
+    })
+  
+  }
