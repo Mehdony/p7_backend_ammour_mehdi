@@ -1,0 +1,16 @@
+
+# Backend_P7
+
+# Getting Started with Backend Groupomania
+
+Backend du projet Groupomania
+
+## Available Scripts
+
+Clone this repo, then `npm install` to install the dependencies.
+
+### `npm install`
+
+In the project directory, you can run:
+
+### `npm run serve`
