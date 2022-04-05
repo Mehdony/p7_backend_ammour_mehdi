@@ -8,6 +8,17 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
   next()
 })
+
+const helmet = require("helmet")
+app.use(helmet.frameguard())
+
+const rateLimit = require("express-rate-limit")
+const limiter = rateLimit({
+  windowMs: 0.1 * 60 * 1000,
+  max: 100,
+});
+app.use(limiter);
+
 const userRoutes = require("./routes/user");
 // parse requests of content-type - application/json
 app.use(express.json());
